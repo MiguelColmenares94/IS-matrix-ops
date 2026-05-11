@@ -1,6 +1,16 @@
-import pool from '../db/postgres.js'
+import pool from '../db/postgres'
+import { Stats } from './stats.service'
 
-export async function saveStatsComputation(userId, q, r, stats, success, errorMsg) {
+type Matrix = number[][]
+
+export async function saveStatsComputation(
+  userId: string | undefined,
+  q: Matrix,
+  r: Matrix,
+  stats: Stats | null,
+  success: boolean,
+  errorMsg: string | null
+): Promise<void> {
   await pool.query(
     'CALL save_stats_computation($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
     [

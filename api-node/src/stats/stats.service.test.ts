@@ -1,4 +1,4 @@
-import { computeStats, isDiagonal } from './stats.service.js'
+import { computeStats, isDiagonal } from './stats.service'
 
 describe('computeStats', () => {
   const q = [[1, 0], [0, 1]]

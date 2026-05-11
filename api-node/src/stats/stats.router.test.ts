@@ -1,11 +1,11 @@
 import request from 'supertest'
 import jwt from 'jsonwebtoken'
-import pool from '../db/postgres.js'
-import app from '../../app.js'
+import pool from '../db/postgres'
+import app from '../../app'
 
 const skip = !process.env.DATABASE_URL
 
-function makeToken(sub = 'test-user-id') {
+function makeToken(sub = 'test-user-id'): string {
   return jwt.sign({ sub, email: 'test@test.com' }, process.env.JWT_SECRET || 'test', {
     algorithm: 'HS256',
     expiresIn: '10m',

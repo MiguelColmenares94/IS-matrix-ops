@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
-import statsRouter from './src/stats/stats.router.js'
+import statsRouter from './src/stats/stats.router'
 
 const app = express()
 app.use(express.json())
