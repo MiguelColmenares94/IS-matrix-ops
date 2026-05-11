@@ -14,6 +14,6 @@
   </div>
 </template>
 
-<script setup>
-defineProps({ data: Array })
+<script setup lang="ts">
+defineProps<{ data: number[][] }>()
 </script>

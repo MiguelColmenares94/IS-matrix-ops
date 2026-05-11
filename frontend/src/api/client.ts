@@ -1,15 +1,15 @@
-import axios from 'axios'
+import axios, { type InternalAxiosRequestConfig } from 'axios'
 import { useAuthStore } from '../domains/auth/auth.store'
 import router from '../router'
 
 const client = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL as string,
 })
 
-client.interceptors.request.use(async (config) => {
+client.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
   const auth = useAuthStore()
   if (auth.accessToken) {
-    const expiresAt = new Date(auth.expiresAt).getTime()
+    const expiresAt = new Date(auth.expiresAt as string).getTime()
     const now = Date.now()
     if (expiresAt - now < 60_000 && expiresAt - now > 0) {
       const stay = window.confirm('Your session is about to expire. Stay logged in?')

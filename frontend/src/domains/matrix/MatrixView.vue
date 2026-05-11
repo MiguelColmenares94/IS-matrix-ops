@@ -100,11 +100,11 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
             <div class="flex flex-col items-center justify-center">
               <h3 class="font-semibold text-brand-navy mb-2">Q Matrix</h3>
-              <MatrixTable :data="matrixStore.qResult.q" />
+              <MatrixTable :data="matrixStore.qResult!.q" />
             </div>
             <div class="flex flex-col items-center justify-center">
               <h3 class="font-semibold text-brand-navy mb-2">R Matrix</h3>
-              <MatrixTable :data="matrixStore.qResult.r" />
+              <MatrixTable :data="matrixStore.qResult!.r" />
             </div>
           </div>
         </div>
@@ -136,7 +136,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../auth/auth.store'
@@ -155,7 +155,7 @@ const jsonError = ref('')
 const rows = ref(3)
 const cols = ref(3)
 
-function makeGrid(r, c, old) {
+function makeGrid(r: number, c: number, old?: number[][]): number[][] {
   return Array.from({ length: r }, (_, i) =>
     Array.from({ length: c }, (_, j) => old?.[i]?.[j] ?? 0)
   )
@@ -163,13 +163,13 @@ function makeGrid(r, c, old) {
 const grid = ref(makeGrid(3, 3))
 watch([rows, cols], ([r, c]) => { grid.value = makeGrid(r, c, grid.value) })
 
-function parseInput() {
+function parseInput(): number[][] | null {
   if (mode.value === 'json') {
     try {
-      const parsed = JSON.parse(jsonInput.value)
-      if (!Array.isArray(parsed) || !parsed.every(r => Array.isArray(r))) throw new Error()
+      const parsed: unknown = JSON.parse(jsonInput.value)
+      if (!Array.isArray(parsed) || !parsed.every((r: unknown) => Array.isArray(r))) throw new Error()
       jsonError.value = ''
-      return parsed
+      return parsed as number[][]
     } catch {
       jsonError.value = 'Invalid JSON matrix format.'
       return null
@@ -178,7 +178,7 @@ function parseInput() {
   return grid.value.map(row => [...row])
 }
 
-async function computeQR() {
+async function computeQR(): Promise<void> {
   const matrix = parseInput()
   if (!matrix) return
   statsStore.$reset()
@@ -189,7 +189,7 @@ async function computeQR() {
   }
 }
 
-function handleClear() {
+function handleClear(): void {
   matrixStore.$reset()
   statsStore.$reset()
   jsonInput.value = ''
@@ -197,7 +197,7 @@ function handleClear() {
   grid.value = makeGrid(rows.value, cols.value)
 }
 
-async function handleLogout() {
+async function handleLogout(): Promise<void> {
   await auth.logout()
   router.push('/login')
 }
