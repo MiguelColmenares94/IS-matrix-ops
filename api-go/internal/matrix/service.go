@@ -43,7 +43,7 @@ func (s *Service) ValidateMatrix(input [][]interface{}) ([][]float64, error) {
 		}
 	}
 	if m < n {
-		return nil, fmt.Errorf("matrix must have at least as many rows as columns (got %d×%d)", m, n)
+		return nil, fmt.Errorf("QR decomposition requires m ≥ n (rows ≥ columns), but got %d×%d matrix", m, n)
 	}
 	return result, nil
 }

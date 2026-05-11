@@ -2,7 +2,6 @@ package matrix_test
 
 import (
 	"math"
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -54,7 +53,7 @@ func TestValidateMatrix_MoreColsThanRows(t *testing.T) {
 	input := [][]interface{}{{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}}
 	_, err := svc.ValidateMatrix(input)
 	require.Error(t, err)
-	assert.True(t, strings.Contains(err.Error(), "rows as columns") || strings.Contains(err.Error(), "2×4"))
+	assert.Contains(t, err.Error(), "QR decomposition requires m ≥ n")
 }
 
 func TestFactorizeQR_3x3(t *testing.T) {
