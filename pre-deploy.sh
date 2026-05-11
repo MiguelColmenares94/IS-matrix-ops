@@ -99,7 +99,7 @@ if ! sudo grep -qE "^listen_addresses\s*=\s*'\*'" "$PG_CONF"; then
   info "Set listen_addresses = '*' in postgresql.conf"
 fi
 
-sudo systemctl reload postgresql
+sudo systemctl restart postgresql
 
 # ── 3. Generate lockfiles ─────────────────────────────────────────────────────
 info "Step 3/6 — Generating lockfiles"
