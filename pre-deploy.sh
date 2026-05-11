@@ -54,7 +54,15 @@ fi
 # PostgreSQL 15
 if ! command -v psql &>/dev/null; then
   info "Installing PostgreSQL 15..."
-  install_if_missing postgresql-15
+  sudo apt-get install -y curl ca-certificates gnupg
+  sudo install -m 0755 -d /etc/apt/keyrings
+  curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
+    sudo gpg --dearmor -o /etc/apt/keyrings/postgresql.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/postgresql.gpg] \
+    https://apt.postgresql.org/pub/repos/apt $(. /etc/os-release && echo "$VERSION_CODENAME")-pgdg main" | \
+    sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
+  sudo apt-get update -qq
+  sudo apt-get install -y postgresql-15
   sudo systemctl enable postgresql
   sudo systemctl start postgresql
 else
