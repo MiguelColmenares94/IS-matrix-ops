@@ -1,7 +1,7 @@
-const { Router } = require('express')
-const jwtMiddleware = require('../middleware/jwt')
-const { computeStats } = require('./stats.service')
-const { saveStatsComputation } = require('./stats.repository')
+import { Router } from 'express'
+import jwtMiddleware from '../middleware/jwt.js'
+import { computeStats } from './stats.service.js'
+import { saveStatsComputation } from './stats.repository.js'
 
 const router = Router()
 
@@ -28,4 +28,4 @@ router.post('/', jwtMiddleware, async (req, res) => {
   }
 })
 
-module.exports = router
+export default router

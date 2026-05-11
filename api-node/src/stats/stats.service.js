@@ -1,10 +1,10 @@
-const { max, min, mean, sum } = require('mathjs')
+import { max, min, mean, sum } from 'mathjs'
 
 function flattenMatrix(matrix) {
   return matrix.flat()
 }
 
-function isDiagonal(matrix) {
+export function isDiagonal(matrix) {
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
       if (i !== j && Math.abs(matrix[i][j]) >= 1e-9) return false
@@ -13,7 +13,7 @@ function isDiagonal(matrix) {
   return true
 }
 
-function computeStats(q, r) {
+export function computeStats(q, r) {
   const values = [...flattenMatrix(q), ...flattenMatrix(r)]
   return {
     max: max(values),
@@ -24,5 +24,3 @@ function computeStats(q, r) {
     r_diagonal: isDiagonal(r),
   }
 }
-
-module.exports = { computeStats, isDiagonal }

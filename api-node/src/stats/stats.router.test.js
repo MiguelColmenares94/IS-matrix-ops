@@ -1,7 +1,7 @@
-const request = require('supertest')
-const jwt = require('jsonwebtoken')
-const pool = require('../db/postgres')
-const app = require('../../app')
+import request from 'supertest'
+import jwt from 'jsonwebtoken'
+import pool from '../db/postgres.js'
+import app from '../../app.js'
 
 const skip = !process.env.DATABASE_URL
 

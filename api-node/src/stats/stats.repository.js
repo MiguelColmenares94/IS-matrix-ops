@@ -1,6 +1,6 @@
-const pool = require('../db/postgres')
+import pool from '../db/postgres.js'
 
-async function saveStatsComputation(userId, q, r, stats, success, errorMsg) {
+export async function saveStatsComputation(userId, q, r, stats, success, errorMsg) {
   await pool.query(
     'CALL save_stats_computation($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
     [
@@ -18,5 +18,3 @@ async function saveStatsComputation(userId, q, r, stats, success, errorMsg) {
     ]
   )
 }
-
-module.exports = { saveStatsComputation }
